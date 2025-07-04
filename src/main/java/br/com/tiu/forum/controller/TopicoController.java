@@ -38,14 +38,15 @@ public class TopicoController {
 
         Optional<Usuario> usuario = usuarioRepository.findByEmailIgnoreCaseAndVerificadoTrue(emailLogado);
 
-        String nomeUsuarioLogado = usuario.get().getNomeUsuario();
-
-        model.addAttribute("nomeUsuarioLogado", nomeUsuarioLogado);
+        if (usuario.isPresent()) {
+            model.addAttribute("usuario", usuario.get());  // chave "usuario"
+            model.addAttribute("nomeUsuarioLogado", usuario.get().getNomeUsuario());  // opcional
+        } else {
+            model.addAttribute("usuario", null);
+        }
 
         return "topicos/lista";
     }
-
-
 
     @GetMapping("/novo")
     public String formularioNovoTopico(Model model) {

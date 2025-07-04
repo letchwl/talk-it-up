@@ -49,6 +49,12 @@ public class UsuarioService implements UserDetailsService {
     }
 
     @Transactional
+    public Usuario editarPerfil(Usuario usuario, DadosAtualizacaoUsuario dados) {
+        usuario.alterarDados(dados);
+        return usuarioRepository.save(usuario);
+    }
+
+    @Transactional
     public void verificarEmail(String codigo) {
         var usuario = usuarioRepository.findByToken(codigo)
                 .orElseThrow(() -> new RegraDeNegocioException("Token inválido"));

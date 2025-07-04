@@ -198,7 +198,7 @@
 <div class="sidebar">
   <h2>Talk It Up</h2>
   <a th:href="@{/topicos}" class="nav-link active"><i class="bi bi-house-door-fill"></i> Feed</a>
-  <a th:href="@{/{nome}(nome=${nomeUsuarioLogado})}" class="nav-link"><i class="bi bi-person-fill"></i> Perfil</a>
+  <a th:href="@{'/perfil/' + ${usuario.nomeUsuario}}" class="nav-link"><i class="bi bi-person-fill"></i> Perfil</a>
   <form th:action="@{/logout}" method="post" class="d-inline">
     <button type="submit" class="btn btn-link nav-link p-0"><i class="bi bi-box-arrow-right"></i> Logout</button>
   </form>

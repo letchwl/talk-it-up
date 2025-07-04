@@ -1,10 +1,10 @@
 package br.com.tiu.forum.controller;
 
 import br.com.tiu.forum.infra.exception.RegraDeNegocioException;
-import br.com.tiu.forum.model.usuario.DadosCadastroUsuario;
-import br.com.tiu.forum.model.usuario.DadosListagemUsuario;
-import br.com.tiu.forum.model.usuario.UsuarioService;
+import br.com.tiu.forum.model.usuario.*;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,12 +52,47 @@ public class UsuarioController {
         return "redirect:login/login";
     }
 
-    @GetMapping("/{nomeUsuario}")
-    public String exibirPerfil(@PathVariable String nomeUsuario, Model model){
+    @GetMapping("perfil/{nomeUsuario}")
+    public String exibirPerfil(@PathVariable String nomeUsuario, Model model) {
         var usuario = usuarioService.buscarPeloNomeUsuario(nomeUsuario);
-        model.addAttribute("usuario", new DadosListagemUsuario(usuario));
+        model.addAttribute("usuario", usuario); // Não passa DTO se o HTML espera o original
         return "usuario/perfil";
     }
 
+    @GetMapping("/perfil/{nomeUsuario}/editar")
+    public String exibirFormularioEdicao(@PathVariable String nomeUsuario,
+                                         @AuthenticationPrincipal Usuario logado,
+                                         Model model) {
 
+        if (!logado.getNomeUsuario().equals(nomeUsuario)) {
+            return "redirect:/acesso-negado";
+        }
+
+        var dados = new DadosAtualizacaoUsuario(
+                logado.getNomeUsuario(),
+                logado.getDisplayName(),
+                logado.getBiografia() != null ? logado.getBiografia() : ""
+        );
+
+        model.addAttribute("dados", dados);
+        model.addAttribute("usuario", logado);
+        return "usuario/editar";
+    }
+
+    @PutMapping("/perfil/{nomeUsuario}/editar")
+    public String editarPerfil(@ModelAttribute("dados") @Valid DadosAtualizacaoUsuario dados,
+                               BindingResult result,
+                               @AuthenticationPrincipal Usuario logado,
+                               Model model,
+                               RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("erro", "Erro na validação dos dados.");
+            return "usuario/editar";
+        }
+
+        var usuario = usuarioService.editarPerfil(logado, dados);
+        redirectAttributes.addFlashAttribute("mensagem", "Perfil atualizado com sucesso!");
+        return "redirect:/perfil/" + logado.getNomeUsuario();
+    }
 }

@@ -117,4 +117,17 @@ public class Usuario implements UserDetails {
     public String getNome() {
         return nomeUsuario;
     }
+
+    public Usuario alterarDados(DadosAtualizacaoUsuario dados) {
+        if(dados.nomeUsuario() != null){
+            this.nomeUsuario = dados.nomeUsuario();
+        }
+        if(dados.displayName() != null){
+            this.displayName = dados.displayName();
+        }
+        if(dados.biografia() != null){
+            this.biografia = dados.biografia();
+        }
+        return this;
+    }
 }
