@@ -2,14 +2,90 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Registrar - Fórum Hub</title>
+  <title>Registrar - Talk It Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h1 {
+      font-weight: 700;
+      color: #333;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #555;
+    }
+
+    .form-control:focus {
+      border-color: #2575fc;
+      box-shadow: 0 0 8px #2575fc;
+    }
+
+    .btn-primary {
+      background-color: #2575fc;
+      border: none;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      padding: 0.75rem;
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      background-color: #1a52d1;
+    }
+
+    .btn-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      color: #2575fc;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .btn-link:hover {
+      text-decoration: underline;
+    }
+
+    .alert ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+  </style>
 </head>
 <body>
-<div class="container my-5">
-  <h1 class="mb-4">Criar uma nova conta</h1>
 
-  <form th:action="@{/registrar}" th:object="${dadosCadastroUsuario}" method="post" class="card p-4 shadow-sm">
+<div class="card">
+  <h1>Criar Conta</h1>
+
+  <form th:action="@{/registrar}" th:object="${dadosCadastroUsuario}" method="post" novalidate>
 
     <div th:if="${#fields.hasErrors()}" class="alert alert-danger">
       <ul>
@@ -43,9 +119,10 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Registrar</button>
-    <a th:href="@{/login}" class="btn btn-link">Já tem uma conta? Entrar</a>
+    <a th:href="@{/login}" class="btn-link">Já tem uma conta? Entrar</a>
   </form>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
