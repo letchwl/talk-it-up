@@ -10,6 +10,7 @@ public enum Categoria {
     QUIMICA,
     BIOLOGIA,
     INGLES,
+    LITERATURA,
     EDUCACAO_FISICA,
     DUVIDAS_DE_AULA,
     RESUMO_E_ANOTACOES,
