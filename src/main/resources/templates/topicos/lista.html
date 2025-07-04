@@ -1,38 +1,72 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
-  <title>Feed de Tópicos</title>
+  <meta charset="UTF-8">
+  <title>Feed - Talk It Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+
   <style>
-    /* Sidebar fixa */
+    body {
+      margin: 0;
+      background: linear-gradient(120deg, #f1f3f9, #e2e8f0);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Sidebar */
     .sidebar {
       position: fixed;
       top: 0;
       left: 0;
-      height: 100vh; /* altura total da tela */
-      width: 220px;
-      background-color: #f8f9fa;
-      border-right: 1px solid #dee2e6;
-      padding-top: 60px; /* pra não colar no topo, ajuste se tiver navbar */
-      z-index: 1030;
+      height: 100vh;
+      width: 230px;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      padding: 60px 20px 20px;
+      z-index: 1000;
     }
+
+    .sidebar h2 {
+      font-size: 1.4rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
     .sidebar .nav-link {
-      color: #333;
+      color: white;
       font-weight: 500;
+      margin-bottom: 15px;
+      padding: 10px 15px;
+      border-radius: 10px;
+      transition: all 0.2s ease-in-out;
     }
+
     .sidebar .nav-link:hover {
-      background-color: #e9ecef;
-      border-radius: 4px;
-      color: #007bff;
+      background-color: rgba(255,255,255,0.15);
+      text-decoration: none;
     }
 
-    /* Conteúdo principal ajustado pra não ficar embaixo da sidebar */
     .content {
-      margin-left: 220px;
-      padding: 20px 30px;
+      margin-left: 230px;
+      padding: 40px 20px;
     }
 
-    /* Botão flutuante redondo */
+    .topico-card {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 16px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      padding: 25px;
+      margin-bottom: 25px;
+      transition: all 0.2s ease;
+    }
+
+    .topico-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.1);
+    }
+
     .btn-flutuante {
       position: fixed;
       bottom: 30px;
@@ -40,75 +74,97 @@
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      font-size: 36px;
+      font-size: 28px;
       color: white;
-      background-color: #007bff;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
       border: none;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background-color 0.3s ease;
-      z-index: 1100;
       text-decoration: none;
+      transition: transform 0.2s ease;
+      z-index: 1050;
     }
+
     .btn-flutuante:hover {
-      background-color: #0056b3;
-      text-decoration: none;
-      color: white;
+      transform: scale(1.1);
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        padding: 10px;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      .sidebar h2 {
+        display: none;
+      }
+
+      .content {
+        margin-left: 0;
+        margin-top: 20px;
+        padding: 20px;
+      }
+
+      .btn-flutuante {
+        bottom: 20px;
+        right: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topico-card {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
 
+<!-- Sidebar -->
 <div class="sidebar">
-  <ul class="nav flex-column px-3">
-    <li class="nav-item mb-2">
-      <a th:href="@{/topicos}" class="nav-link">Feed</a>
-    </li>
-    <li class="nav-item mb-2">
-      <a th:href="@{/{nome}(nome=${nomeUsuarioLogado})}" class="nav-link">Meu Perfil</a>
-    </li>
-    <li class="nav-item">
-      <form th:action="@{/logout}" method="post" class="d-inline">
-        <button type="submit" class="btn btn-link nav-link p-0" style="color: #dc3545;">Logout</button>
-      </form>
-    </li>
-  </ul>
+  <h2>Talk It Up</h2>
+  <a th:href="@{/topicos}" class="nav-link"><i class="bi bi-house-door-fill me-1"></i>Feed</a>
+  <a th:href="@{/{nome}(nome=${nomeUsuarioLogado})}" class="nav-link"><i class="bi bi-person-fill me-1"></i>Perfil</a>
+  <form th:action="@{/logout}" method="post" class="d-inline">
+    <button type="submit" class="btn btn-link nav-link p-0" style="color: #ffc9c9;"><i class="bi bi-box-arrow-right me-1"></i>Logout</button>
+  </form>
 </div>
 
-<div class="content container my-5">
+<!-- Conteúdo -->
+<div class="content">
+  <h1>Explorar Tópicos</h1>
 
-  <div th:if="${mensagemSucesso}" class="alert alert-success" role="alert" th:text="${mensagemSucesso}"></div>
-
-  <h1 class="mb-4">Explorar</h1>
-
-  <form method="get" action="#" class="mb-3">
-    <input type="text" name="busca" placeholder="Buscar tópicos..." class="form-control" />
+  <form method="get" action="#" class="mb-4">
+    <input type="text" name="busca" placeholder="Buscar por título ou conteúdo..." class="form-control shadow-sm"/>
   </form>
 
   <div th:if="${topicos.content.empty}">
-    <p>Nenhum tópico encontrado.</p>
+    <p class="text-muted">Nenhum tópico encontrado.</p>
   </div>
 
-  <div class="list-group">
-    <div th:each="topico : ${topicos.content}" class="list-group-item list-group-item-action flex-column align-items-start mb-3 shadow-sm rounded">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 th:text="${topico.titulo}">Título do tópico</h5>
-        <small th:text="${#dates.format(topico.dataCriacao, 'dd/MM/yyyy HH:mm')}">01/01/2025 12:00</small>
-      </div>
-      <p class="mb-1" th:text="${topico.mensagem}">Mensagem breve do tópico...</p>
-      <small>Criado por <span th:text="${topico.nomeAutor}">Autor</span></small>
-
-      <div class="mt-2">
-        <button class="btn btn-sm btn-outline-primary me-2">Curtir</button>
-        <a th:href="@{'/topicos/' + ${topico.id}}" class="btn btn-sm btn-outline-secondary">Ver detalhes</a>
-      </div>
+  <div th:each="topico : ${topicos.content}" class="topico-card">
+    <div class="d-flex justify-content-between flex-wrap">
+      <h5 th:text="${topico.titulo}">Título</h5>
+      <small th:text="${#temporals.format(topico.dataCriacao, 'dd/MM/yyyy HH:mm')}">Data</small>
     </div>
+    <p class="mb-1 mt-2" th:text="${topico.mensagem}">Mensagem</p>
+    <small>Criado por <strong th:text="${topico.nomeAutor}">Autor</strong></small>
   </div>
 
-  <nav aria-label="Page navigation example" class="mt-4">
+  <nav class="mt-5">
     <ul class="pagination justify-content-center">
       <li class="page-item" th:classappend="${topicos.first} ? 'disabled'">
         <a class="page-link" th:href="@{'/topicos?page=' + ${topicos.number - 1}}">Anterior</a>
@@ -121,11 +177,10 @@
       </li>
     </ul>
   </nav>
-
 </div>
 
-<!-- Botão flutuante para criar novo tópico -->
-<a href="/topicos/novo" class="btn-flutuante" title="Novo tópico">+</a>
+<!-- Botão flutuante -->
+<a href="/topicos/novo" class="btn-flutuante" title="Novo tópico"><i class="bi bi-plus-lg"></i></a>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
