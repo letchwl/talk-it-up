@@ -1,0 +1,22 @@
+package br.com.tiu.forum.model.topico;
+
+public enum Categoria {
+    MATEMATICA,
+    PORTUGUES,
+    HISTORIA,
+    GEOGRAFIA,
+    CIENCIAS,
+    FISICA,
+    QUIMICA,
+    BIOLOGIA,
+    INGLES,
+    EDUCACAO_FISICA,
+    DUVIDAS_DE_AULA,
+    RESUMO_E_ANOTACOES,
+    TRABALHOS_ESCOLARES,
+    PROVAS_E_SIMULADOS,
+    LIÇÃO_DE_CASA,
+    CONTEUDO_EXTRA,
+    TECNOLOGIA,
+    CONVERSAS_GERAIS
+}
