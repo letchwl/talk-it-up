@@ -1,5 +1,6 @@
 package br.com.tiu.forum.controller;
 
+import br.com.tiu.forum.infra.exception.RegraDeNegocioException;
 import br.com.tiu.forum.model.topico.*;
 import br.com.tiu.forum.model.usuario.Usuario;
 import br.com.tiu.forum.model.usuario.UsuarioRepository;
@@ -48,22 +49,26 @@ public class TopicoController {
 
     @GetMapping("/novo")
     public String formularioNovoTopico(Model model) {
-        model.addAttribute("dadosCadastroTopico", new DadosCadastroTopico(null, null, null, null));
+        model.addAttribute("dadosCadastroTopico", new DadosCadastroTopico(null, null, null));
         return "topicos/novo";
     }
 
     @PostMapping
     public String cadastrar(
-            @ModelAttribute @Valid DadosCadastroTopico dadosCadastroTopico,
+            @ModelAttribute @Valid DadosCadastroTopico dados,
             BindingResult result,
             RedirectAttributes redirectAttributes,
-            @AuthenticationPrincipal Usuario autor) {
+            Principal principal) {
 
         if (result.hasErrors()) {
             return "topicos/novo";
         }
 
-        topicoService.cadastrar(dadosCadastroTopico, autor);
+        String emailLogado = principal.getName();
+        Usuario autor = usuarioRepository.findByEmailIgnoreCaseAndVerificadoTrue(emailLogado)
+                .orElseThrow(() -> new RegraDeNegocioException("Usuário não encontrado!"));
+
+        topicoService.cadastrar(dados, autor);
         redirectAttributes.addFlashAttribute("mensagemSucesso", "Tópico criado com sucesso!");
         return "redirect:/topicos";
     }

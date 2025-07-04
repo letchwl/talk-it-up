@@ -114,4 +114,7 @@ public class Usuario implements UserDetails {
         this.expiracaoToken = null;
     }
 
+    public String getNome() {
+        return nomeUsuario;
+    }
 }

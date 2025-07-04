@@ -13,7 +13,7 @@ public class Topico {
     private Long id;
     private String titulo;
     private String mensagem;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "autor_id")
     private Usuario autor;
     private LocalDateTime dataCriacao;
@@ -21,7 +21,7 @@ public class Topico {
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
 
-    public Topico(DadosCadastroTopico dados) {}
+    public Topico() {}
 
     public Topico(DadosCadastroTopico dados, Usuario autor) {
         this.titulo = dados.titulo();

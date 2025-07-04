@@ -13,15 +13,16 @@ public class TopicoService {
 
     private final TopicoRepository topicoRepository;
 
-    public TopicoService(TopicoRepository repository, TopicoRepository topicoRepository) {
+    public TopicoService(TopicoRepository topicoRepository) {
         this.topicoRepository = topicoRepository;
     }
 
     @Transactional
     public Topico cadastrar(DadosCadastroTopico dados, Usuario autor) {
-        var topico = new Topico(dados);
+        var topico = new Topico(dados, autor);
         return topicoRepository.save(topico);
     }
+
 
     public Page<DadosListagemTopico> listarTopicos(Pageable pageable) {
         return topicoRepository.findAll(pageable)
