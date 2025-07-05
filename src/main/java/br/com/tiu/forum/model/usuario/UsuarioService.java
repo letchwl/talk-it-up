@@ -50,9 +50,28 @@ public class UsuarioService implements UserDetailsService {
 
     @Transactional
     public Usuario editarPerfil(Usuario usuario, DadosAtualizacaoUsuario dados) {
+        if (dados.biografia() != null && dados.biografia().length() > 150) {
+            throw new RegraDeNegocioException("A bio deve ter no máximo 150 caracteres");
+        }
+
+        if (dados.nomeUsuario() == null || dados.nomeUsuario().isBlank()) {
+            throw new RegraDeNegocioException("O nome de usuário não pode estar vazio");
+        }
+        if (dados.nomeUsuario().length() < 3 || dados.nomeUsuario().length() > 30) {
+            throw new RegraDeNegocioException("O nome de usuário deve ter entre 3 e 20 caracteres");
+        }
+
+        if (dados.displayName() == null || dados.displayName().isBlank()) {
+            throw new RegraDeNegocioException("O display name não pode estar vazio");
+        }
+        if (dados.displayName().length() < 3 || dados.displayName().length() > 50) {
+            throw new RegraDeNegocioException("O display name deve ter entre 3 e 30 caracteres");
+        }
+
         usuario.alterarDados(dados);
         return usuarioRepository.save(usuario);
     }
+
 
     @Transactional
     public void verificarEmail(String codigo) {

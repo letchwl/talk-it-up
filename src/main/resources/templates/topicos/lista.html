@@ -8,12 +8,18 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 
   <style>
+    /* --- Estilos padrão --- */
     body {
       margin: 0;
       background: linear-gradient(120deg, #f1f3f9, #e2e8f0);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
       display: flex;
+    }
+
+    .dropdown {
+      position: relative;
+      z-index: 1060; /* acima do card, sidebar etc */
     }
 
     /* Sidebar */
@@ -29,6 +35,7 @@
       z-index: 1000;
       display: flex;
       flex-direction: column;
+      box-shadow: 3px 0 8px rgba(0,0,0,0.15);
     }
 
     .sidebar h2 {
@@ -81,6 +88,12 @@
       flex: 1;
       max-width: calc(100% - 230px);
       overflow-y: auto;
+      color: #333;
+      border-left: 2px solid #ddd; /* Divisão visual */
+      background: #fff;
+      border-radius: 0 15px 15px 0;
+      box-shadow: inset 2px 0 5px rgba(0,0,0,0.05);
+      min-height: 100vh;
     }
 
     .topico-card {
@@ -92,6 +105,7 @@
       margin-bottom: 25px;
       transition: all 0.2s ease;
       cursor: pointer;
+      color: #222;
     }
 
     .topico-card:hover {
@@ -157,6 +171,7 @@
         padding: 10px;
         justify-content: space-around;
         align-items: center;
+        box-shadow: none;
       }
 
       .sidebar h2 {
@@ -173,6 +188,10 @@
         margin-left: 0;
         padding: 20px;
         max-width: 100%;
+        border-left: none;
+        border-radius: 0;
+        box-shadow: none;
+        min-height: auto;
       }
 
       .btn-flutuante {
@@ -190,9 +209,114 @@
         font-size: 1.5rem;
       }
     }
+
+    /* --- Dark mode --- */
+    body.dark-mode {
+      background: linear-gradient(120deg, #1e1e2f, #12121b);
+      color: #ddd;
+    }
+
+    body.dark-mode input.form-control {
+      background-color: #2a2a2a;
+      color: #eee;
+      border: 1px solid #444;
+    }
+
+    body.dark-mode input.form-control::placeholder {
+      color: #aaa;
+    }
+
+    body.dark-mode .pagination .page-link {
+      background-color: #2a2a2a;
+      color: #eee;
+      border-color: #444;
+    }
+
+    body.dark-mode .pagination .page-link:hover {
+      background-color: #333;
+      color: #fff;
+    }
+
+    body.dark-mode .sidebar {
+      background: linear-gradient(120deg, #1e1e2f, #12121b);
+      color: #ddd;
+      box-shadow: 3px 0 8px rgba(0,0,0,0.6);
+    }
+
+    body.dark-mode .sidebar .nav-link {
+      color: #ddd;
+    }
+
+    body.dark-mode .sidebar .nav-link:hover,
+    body.dark-mode .sidebar .nav-link.active {
+      background-color: linear-gradient(135deg, #6a11cb, #2575fc);
+      text-decoration: none;
+    }
+
+    body.dark-mode .sidebar form button.nav-link {
+      color: #f7f7f7;
+    }
+
+    body.dark-mode .sidebar form button.nav-link:hover {
+      background-color: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+    }
+
+    body.dark-mode .content {
+      color: #ddd;
+      background: #1a1a1a;
+      border-left: 2px solid #333;
+      box-shadow: inset 2px 0 5px rgba(255,255,255,0.05);
+    }
+
+    body.dark-mode .topico-card {
+      background: rgba(30, 30, 30, 0.85);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.9);
+      color: #eee;
+    }
+
+    body.dark-mode .topico-card:hover {
+      box-shadow: 0 10px 24px rgba(0,0,0,1);
+    }
+
+    body.dark-mode .btn-flutuante {
+      background: linear-gradient(135deg, #2a2a40, #1c1c2c);
+      box-shadow: 0 4px 12px rgba(255,255,255,0.1);
+      color: #eee;
+    }
+
+    /* --- Toggle dark mode estilizado --- */
+    .toggle-theme {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 8px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .toggle-theme:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .toggle-theme i {
+      font-size: 1.4rem;
+      color: white;
+    }
+
   </style>
 </head>
 <body>
+
+<div class="toggle-theme" onclick="toggleDarkMode()" title="Alternar tema">
+  <i class="bi bi-moon-fill" id="theme-icon"></i>
+</div>
 
 <!-- Sidebar -->
 <div class="sidebar">
@@ -217,10 +341,31 @@
   </div>
 
   <div th:each="topico : ${topicos.content}" class="topico-card" tabindex="0" role="article" aria-label="Tópico: [[${topico.titulo}]]">
-    <div class="d-flex justify-content-between flex-wrap">
+    <div class="d-flex justify-content-between flex-wrap align-items-start">
       <h5 th:text="${topico.titulo}">Título</h5>
-      <small th:text="${#temporals.format(topico.dataCriacao, 'dd/MM/yyyy HH:mm')}">Data</small>
+
+      <!-- Dropdown 3 pontos -->
+      <div class="dropdown">
+        <button class="btn btn-sm btn-light p-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="line-height:1;">
+          <i class="bi bi-three-dots-vertical fs-5"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+          <li>
+            <a th:href="@{'/topicos/' + ${topico.id} + '/editar'}" class="dropdown-item">Editar</a>
+          </li>
+          <li>
+            <form th:action="@{'/topicos/' + ${topico.id} + '/excluir'}" method="post" style="margin:0;">
+              <input type="hidden" name="_method" value="delete"/>
+              <button type="submit" class="dropdown-item text-danger"
+                      onclick="return confirm('Tem certeza que deseja excluir este tópico?');">
+                Excluir
+              </button>
+            </form>
+          </li>
+        </ul>
+      </div>
     </div>
+
     <p class="mb-1 mt-2" th:text="${topico.mensagem}">Mensagem</p>
     <small>Criado por <strong th:text="${topico.nomeAutor}">Autor</strong></small>
   </div>
@@ -244,5 +389,24 @@
 <a href="/topicos/novo" class="btn-flutuante" title="Novo tópico"><i class="bi bi-plus-lg"></i></a>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const icon = document.getElementById('theme-icon');
+    const isDark = document.body.classList.contains('dark-mode');
+    icon.classList.toggle('bi-moon-fill', !isDark);
+    icon.classList.toggle('bi-sun-fill', isDark);
+    localStorage.setItem('tema', isDark ? 'dark' : 'light');
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const temaSalvo = localStorage.getItem('tema');
+    if (temaSalvo === 'dark') {
+      document.body.classList.add('dark-mode');
+      document.getElementById('theme-icon').classList.replace('bi-moon-fill', 'bi-sun-fill');
+    }
+  });
+</script>
 </body>
 </html>

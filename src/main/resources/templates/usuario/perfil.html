@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-
     <style>
         body {
           margin: 0;
@@ -16,7 +15,6 @@
           display: flex;
         }
 
-        /* Sidebar */
         .sidebar {
           position: fixed;
           top: 0;
@@ -46,7 +44,6 @@
           margin-bottom: 15px;
           padding: 12px 15px;
           border-radius: 10px;
-          transition: background-color 0.3s ease;
           display: flex;
           align-items: center;
           gap: 10px;
@@ -56,7 +53,6 @@
         .sidebar .nav-link:hover,
         .sidebar .nav-link.active {
           background-color: rgba(255,255,255,0.25);
-          text-decoration: none;
         }
 
         .sidebar form button.nav-link {
@@ -74,7 +70,30 @@
           color: #fff;
         }
 
-        /* Content */
+        .toggle-theme {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background: rgba(255,255,255,0.1);
+          border-radius: 12px;
+          padding: 8px 12px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.3s ease;
+          border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .toggle-theme:hover {
+          background: rgba(255,255,255,0.2);
+        }
+
+        .toggle-theme i {
+          font-size: 1.4rem;
+          color: white;
+        }
+
         .content {
           margin-left: 230px;
           padding: 40px 30px;
@@ -106,11 +125,6 @@
           background-color: #f0f0f0;
           margin-bottom: 1.5rem;
           box-shadow: 0 0 12px #2575fc;
-          transition: box-shadow 0.3s ease;
-        }
-
-        .profile-photo:hover {
-          box-shadow: 0 0 20px #1a52d1;
         }
 
         .display-name {
@@ -124,17 +138,14 @@
           font-size: 1rem;
           color: #666;
           margin-bottom: 1.5rem;
-          letter-spacing: 0.05em;
         }
 
         .biografia {
           background-color: #f8f9fa;
           padding: 1.2rem 1.5rem;
           border-radius: 12px;
-          font-size: 1rem;
           color: #444;
           margin-bottom: 2.5rem;
-          min-height: 90px;
           box-shadow: inset 0 0 5px #ddd;
           white-space: pre-wrap;
           word-wrap: break-word;
@@ -151,11 +162,6 @@
           padding: 0.85rem 0;
           font-size: 1.1rem;
           border-radius: 12px;
-          transition: background-color 0.3s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
         }
 
         .btn-primary {
@@ -164,18 +170,9 @@
           color: white;
         }
 
-        .btn-primary:hover {
-          background-color: #1a52d1;
-        }
-
         .btn-outline-secondary {
           color: #2575fc;
           border-color: #2575fc;
-        }
-
-        .btn-outline-secondary:hover {
-          background-color: #2575fc;
-          color: white;
         }
 
         .btn-danger {
@@ -184,11 +181,66 @@
           color: white;
         }
 
-        .btn-danger:hover {
-          background-color: #a52834;
+        /* MODO ESCURO */
+        body.dark-mode {
+          background: linear-gradient(120deg, #1e1e2f, #12121b);
+          color: #ddd;
         }
 
-        /* Responsividade */
+        body.dark-mode .sidebar {
+          background: linear-gradient(135deg, #1e1e2f, #12121b);
+          color: #ddd;
+          box-shadow: 3px 0 8px rgba(0,0,0,0.6);
+        }
+
+        body.dark-mode .sidebar .nav-link {
+          color: #ddd;
+        }
+
+        body.dark-mode .sidebar .nav-link:hover,
+        body.dark-mode .sidebar .nav-link.active {
+          background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        body.dark-mode .sidebar form button.nav-link {
+          color: #f7f7f7;
+        }
+
+        body.dark-mode .sidebar form button.nav-link:hover {
+          background-color: rgba(255, 255, 255, 0.15);
+          color: #fff;
+        }
+
+        body.dark-mode .content {
+          color: #ddd;
+        }
+
+        body.dark-mode .profile-card {
+          background: rgba(30, 30, 30, 0.95);
+          box-shadow: 0 6px 18px rgba(0,0,0,0.9);
+          color: #eee;
+        }
+
+        body.dark-mode .biografia {
+          background-color: #1a1a1a;
+          color: #ccc;
+          box-shadow: inset 0 0 5px #333;
+        }
+
+        body.dark-mode .btn-primary {
+          background-color: #3455bb;
+        }
+
+        body.dark-mode .btn-outline-secondary {
+          color: #8fbaff;
+          border-color: #8fbaff;
+        }
+
+        body.dark-mode .btn-outline-secondary:hover {
+          background-color: #3455bb;
+          color: white;
+        }
+
         @media (max-width: 768px) {
           body {
             flex-direction: column;
@@ -223,6 +275,10 @@
 </head>
 <body>
 
+<div class="toggle-theme" onclick="toggleDarkMode()" title="Alternar tema">
+    <i class="bi bi-moon-fill" id="theme-icon"></i>
+</div>
+
 <!-- Sidebar -->
 <div class="sidebar">
     <h2>Talk It Up</h2>
@@ -234,8 +290,8 @@
 </div>
 
 <!-- Conteúdo -->
-<main class="content" role="main" aria-label="Perfil do usuário">
-    <section class="profile-card" tabindex="0">
+<main class="content">
+    <section class="profile-card">
         <img th:src="@{/images/default-profile.png}" alt="Foto de perfil" class="profile-photo" />
         <h1 class="display-name" th:text="${usuario.displayName}">Nome do Usuário</h1>
         <p class="username" th:text="'@' + ${usuario.nomeUsuario}">@nomeusuario</p>
@@ -245,19 +301,32 @@
         </div>
 
         <div class="btn-group-profile">
-            <a th:href="@{'/topicos?autor=' + ${usuario.nomeUsuario}}" class="btn btn-primary" role="button">
-                <i class="bi bi-chat-left-text-fill"></i> Ver Tópicos
-            </a>
-            <a th:href="@{'/perfil/' + ${usuario.nomeUsuario} + '/editar'}" class="btn btn-outline-secondary" role="button">
-                <i class="bi bi-pencil-square"></i> Editar Perfil
-            </a>
-            <a th:href="@{/logout}" class="btn btn-danger" role="button">
-                <i class="bi bi-box-arrow-right"></i> Sair
-            </a>
+            <a th:href="@{'/topicos?autor=' + ${usuario.nomeUsuario}}" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i> Ver Tópicos</a>
+            <a th:href="@{'/perfil/' + ${usuario.nomeUsuario} + '/editar'}" class="btn btn-outline-secondary"><i class="bi bi-pencil-square"></i> Editar Perfil</a>
+            <a th:href="@{/logout}" class="btn btn-danger"><i class="bi bi-box-arrow-right"></i> Sair</a>
         </div>
     </section>
 </main>
 
+<script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      const icon = document.getElementById('theme-icon');
+      const isDark = document.body.classList.contains('dark-mode');
+      icon.classList.toggle('bi-moon-fill', !isDark);
+      icon.classList.toggle('bi-sun-fill', isDark);
+      localStorage.setItem('tema', isDark ? 'dark' : 'light');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const temaSalvo = localStorage.getItem('tema');
+      if (temaSalvo === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('theme-icon').classList.replace('bi-moon-fill', 'bi-sun-fill');
+      }
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

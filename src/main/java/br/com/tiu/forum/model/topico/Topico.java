@@ -12,6 +12,7 @@ public class Topico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titulo;
+    @Column(length = 2000)
     private String mensagem;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "autor_id")

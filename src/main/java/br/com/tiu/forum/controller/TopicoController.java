@@ -7,7 +7,6 @@ import br.com.tiu.forum.model.usuario.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -74,7 +73,7 @@ public class TopicoController {
         return "redirect:/topicos";
     }
 
-    @PostMapping("/{id}/excluir")
+    @DeleteMapping("/{id}/excluir")
     public String deletar(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         topicoService.deletar(id);
         redirectAttributes.addFlashAttribute("mensagemSucesso", "Tópico excluído com sucesso!");
