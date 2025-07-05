@@ -21,10 +21,12 @@ import java.util.Optional;
 public class TopicoController {
 
     private final TopicoService topicoService;
+    private final TopicoRepository topicoRepository;
     private final UsuarioRepository usuarioRepository;
 
-    public TopicoController(TopicoService topicoService, UsuarioRepository usuarioRepository) {
+    public TopicoController(TopicoService topicoService, TopicoRepository topicoRepository, UsuarioRepository usuarioRepository) {
         this.topicoService = topicoService;
+        this.topicoRepository = topicoRepository;
         this.usuarioRepository = usuarioRepository;
     }
 
@@ -71,6 +73,37 @@ public class TopicoController {
         topicoService.cadastrar(dados, autor);
         redirectAttributes.addFlashAttribute("mensagemSucesso", "Tópico criado com sucesso!");
         return "redirect:/topicos";
+    }
+
+    @GetMapping("/{id}/editar")
+    public String abrirEdicao(@PathVariable Long id, Model model) {
+        var topico = topicoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tópico não encontrado"));
+        var dados = new DadosAtualizacaoTopico(topico.getId(), topico.getTitulo(), topico.getMensagem());
+        model.addAttribute("dados", dados);
+        return "topicos/editar";
+    }
+
+    @PutMapping("/{id}/editar")
+    public String editarTopico(@PathVariable Long id,
+                               @Valid DadosAtualizacaoTopico dados,
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.dadosAtualizacaoTopico", bindingResult);
+            redirectAttributes.addFlashAttribute("dadosAtualizacaoTopico", dados);
+            return "redirect:/topicos/" + id + "/editar";
+        }
+
+        try {
+            DadosListagemTopico atualizado = topicoService.atualizar(dados, id);
+            redirectAttributes.addFlashAttribute("sucesso", "Tópico atualizado com sucesso!");
+            return "redirect:/topicos";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("erro", e.getMessage());
+            redirectAttributes.addFlashAttribute("dadosAtualizacaoTopico", dados);
+            return "redirect:/topicos/" + id + "/editar";
+        }
     }
 
     @DeleteMapping("/{id}/excluir")

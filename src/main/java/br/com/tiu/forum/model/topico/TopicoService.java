@@ -30,11 +30,27 @@ public class TopicoService {
     }
 
     @Transactional
-    public DadosListagemTopico atualizar(DadosAtualizacaoTopico dados) {
-        Topico topico = topicoRepository.getReferenceById(dados.id());
-        topico.setTitulo(dados.titulo());
-        topico.setMensagem(dados.mensagem());
-        return new DadosListagemTopico(topico);
+    public DadosListagemTopico atualizar(DadosAtualizacaoTopico dados, Long idPath) {
+        try {
+            if (!idPath.equals(dados.id())) {
+                throw new IllegalArgumentException("ID do tópico inválido.");
+            }
+
+            Topico topico = topicoRepository.findById(idPath)
+                    .orElseThrow(() -> new EntityNotFoundException("Tópico não encontrado."));
+
+            topico.setTitulo(dados.titulo());
+            topico.setMensagem(dados.mensagem());
+
+            return new DadosListagemTopico(topico);
+
+        } catch (IllegalArgumentException | EntityNotFoundException e) {
+            // aqui você pode logar o erro se quiser
+            throw e;  // relança para o controller tratar
+        } catch (Exception e) {
+            // log de erro genérico
+            throw new RuntimeException("Erro inesperado ao atualizar tópico.", e);
+        }
     }
 
     public void deletar(Long id) {

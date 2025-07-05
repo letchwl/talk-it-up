@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Editar Tópico - Talk It Up</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container mt-5" style="max-width: 700px;">
+    <h2 class="mb-4">Editar Tópico</h2>
+
+    <form th:action="@{'/topicos/' + ${dados.id} + '/editar'}" th:object="${dados}" method="post">
+        <input type="hidden" name="_method" value="put" />
+
+        <div th:if="${erro != null}" class="alert alert-danger" th:text="${erro}"></div>
+
+        <div th:if="${#fields.hasErrors()}">
+            <ul class="alert alert-danger">
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+            </ul>
+        </div>
+
+        <div class="mb-3">
+            <label for="titulo" class="form-label">Título</label>
+            <input type="text" id="titulo" th:field="*{titulo}" class="form-control" placeholder="Título do tópico" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="mensagem" class="form-label">Mensagem</label>
+            <textarea id="mensagem" th:field="*{mensagem}" rows="6" class="form-control" placeholder="Descreva seu tópico..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+        <a th:href="@{/topicos}" class="btn btn-secondary ms-2">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>
