@@ -4,280 +4,279 @@
     <meta charset="UTF-8" />
     <title>Perfil - Talk It Up</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
     <style>
+        /* Reset */
+        * {
+          box-sizing: border-box;
+        }
         body {
           margin: 0;
-          background: linear-gradient(120deg, #f1f3f9, #e2e8f0);
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
           min-height: 100vh;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+          color: #333;
           display: flex;
+          overflow-x: hidden;
         }
 
+        /* Sidebar */
         .sidebar {
           position: fixed;
           top: 0;
           left: 0;
           height: 100vh;
-          width: 230px;
-          background: linear-gradient(135deg, #6a11cb, #2575fc);
-          color: white;
-          padding: 60px 20px 20px;
-          z-index: 1000;
+          width: 240px;
+          background: white;
+          border-radius: 0 30px 30px 0;
+          padding: 3rem 1.8rem 2rem;
+          box-shadow: 6px 0 20px rgba(38, 24, 75, 0.15);
           display: flex;
           flex-direction: column;
+          user-select: none;
+          z-index: 1000;
         }
 
         .sidebar h2 {
-          font-size: 1.6rem;
-          margin-bottom: 2rem;
-          text-align: center;
           font-weight: 700;
+          font-size: 1.8rem;
+          color: #6a11cb;
+          text-align: center;
+          margin-bottom: 3rem;
           letter-spacing: 2px;
-          user-select: none;
         }
 
-        .sidebar .nav-link {
-          color: white;
-          font-weight: 600;
-          margin-bottom: 15px;
-          padding: 12px 15px;
-          border-radius: 10px;
+        .sidebar .nav-link,
+        .sidebar form button.nav-link {
           display: flex;
           align-items: center;
-          gap: 10px;
-          font-size: 1rem;
+          gap: 12px;
+          padding: 14px 20px;
+          margin-bottom: 1.3rem;
+          font-weight: 600;
+          font-size: 1.1rem;
+          border-radius: 16px;
+          color: #6a11cb;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          text-decoration: none;
+          transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .sidebar .nav-link:hover,
-        .sidebar .nav-link.active {
-          background-color: rgba(255,255,255,0.25);
+        .sidebar .nav-link.active,
+        .sidebar form button.nav-link:hover {
+          background: linear-gradient(90deg, #6a11cb, #2575fc);
+          color: white;
+          box-shadow: 0 6px 20px rgba(106, 17, 203, 0.5);
+          text-decoration: none;
         }
 
         .sidebar form button.nav-link {
-          border: none;
-          background: transparent;
-          padding: 0;
-          color: #ffc9c9;
-          cursor: pointer;
           width: 100%;
-          text-align: left;
+          justify-content: flex-start;
         }
 
-        .sidebar form button.nav-link:hover {
-          background-color: rgba(255, 192, 203, 0.25);
-          color: #fff;
-        }
-
+        /* Toggle Tema */
         .toggle-theme {
-          position: absolute;
-          top: 10px;
-          right: 10px;
-          background: rgba(255,255,255,0.1);
-          border-radius: 12px;
-          padding: 8px 12px;
+          position: fixed;
+          top: 18px;
+          left: 260px;
+          background: white;
+          border-radius: 14px;
+          padding: 10px 14px;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: background 0.3s ease;
-          border: 1px solid rgba(255,255,255,0.3);
+          box-shadow: 0 4px 15px rgba(106, 17, 203, 0.25);
+          transition: background-color 0.3s ease, box-shadow 0.3s ease;
+          z-index: 1100;
         }
-
         .toggle-theme:hover {
-          background: rgba(255,255,255,0.2);
+          background: #6a11cb;
+          box-shadow: 0 8px 30px rgba(106, 17, 203, 0.6);
         }
-
         .toggle-theme i {
-          font-size: 1.4rem;
+          font-size: 1.6rem;
+          color: #6a11cb;
+          transition: color 0.3s ease;
+        }
+        .toggle-theme:hover i {
           color: white;
         }
 
-        .content {
-          margin-left: 230px;
-          padding: 40px 30px;
+        /* Conteúdo principal */
+        main.content {
+          margin-left: 240px;
+          padding: 3.5rem 3rem;
           flex: 1;
-          max-width: calc(100% - 230px);
+          max-width: calc(100% - 240px);
           overflow-y: auto;
           display: flex;
           flex-direction: column;
           align-items: center;
         }
 
+        /* Card Perfil */
         .profile-card {
-          background: rgba(255, 255, 255, 0.95);
-          border-radius: 16px;
-          box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-          padding: 40px 30px;
-          max-width: 480px;
+          background: white;
+          border-radius: 30px;
+          box-shadow: 0 20px 45px rgba(106, 17, 203, 0.15);
+          padding: 50px 40px;
+          max-width: 520px;
           width: 100%;
           text-align: center;
           user-select: none;
+          transition: box-shadow 0.3s ease;
+        }
+        .profile-card:hover {
+          box-shadow: 0 28px 60px rgba(106, 17, 203, 0.3);
         }
 
         .profile-photo {
-          width: 140px;
-          height: 140px;
+          width: 160px;
+          height: 160px;
           border-radius: 50%;
           object-fit: cover;
-          border: 5px solid #2575fc;
+          border: 6px solid #2575fc;
           background-color: #f0f0f0;
-          margin-bottom: 1.5rem;
-          box-shadow: 0 0 12px #2575fc;
+          margin-bottom: 2rem;
+          box-shadow: 0 0 18px #2575fc;
+          transition: box-shadow 0.3s ease;
+        }
+        .profile-card:hover .profile-photo {
+          box-shadow: 0 0 26px #2575fc;
         }
 
         .display-name {
-          font-size: 2rem;
-          font-weight: 700;
-          color: #333;
-          margin-bottom: 0.25rem;
+          font-size: 2.5rem;
+          font-weight: 800;
+          color: #6a11cb;
+          margin-bottom: 0.35rem;
         }
 
         .username {
-          font-size: 1rem;
-          color: #666;
-          margin-bottom: 1.5rem;
+          font-size: 1.15rem;
+          color: #555;
+          margin-bottom: 2rem;
         }
 
         .biografia {
           background-color: #f8f9fa;
-          padding: 1.2rem 1.5rem;
-          border-radius: 12px;
+          padding: 1.6rem 2rem;
+          border-radius: 20px;
           color: #444;
-          margin-bottom: 2.5rem;
-          box-shadow: inset 0 0 5px #ddd;
+          margin-bottom: 3rem;
+          box-shadow: inset 0 0 12px #ddd;
           white-space: pre-wrap;
           word-wrap: break-word;
+          font-size: 1.05rem;
+          line-height: 1.5;
+          user-select: text;
         }
 
+        /* Botões do perfil */
         .btn-group-profile {
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          gap: 16px;
         }
-
         .btn-group-profile .btn {
           font-weight: 700;
-          padding: 0.85rem 0;
-          font-size: 1.1rem;
-          border-radius: 12px;
+          padding: 1rem 0;
+          font-size: 1.15rem;
+          border-radius: 20px;
+          transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .btn-primary {
-          background-color: #2575fc;
+          background: linear-gradient(90deg, #6a11cb, #2575fc);
           border: none;
           color: white;
+          box-shadow: 0 6px 15px rgba(38, 24, 75, 0.3);
+        }
+        .btn-primary:hover {
+          background: linear-gradient(90deg, #7d23dd, #2a82fc);
+          box-shadow: 0 10px 25px rgba(46, 28, 92, 0.6);
         }
 
         .btn-outline-secondary {
-          color: #2575fc;
-          border-color: #2575fc;
+          color: #6a11cb;
+          border-color: #6a11cb;
+        }
+        .btn-outline-secondary:hover {
+          background: #6a11cb;
+          color: white;
         }
 
         .btn-danger {
-          background-color: #dc3545;
+          background: #dc3545;
           border: none;
           color: white;
+          box-shadow: 0 6px 15px rgba(220, 53, 69, 0.3);
+        }
+        .btn-danger:hover {
+          background: #bb2d3b;
+          box-shadow: 0 10px 25px rgba(187, 45, 59, 0.6);
         }
 
-        /* MODO ESCURO */
-        body.dark-mode {
-          background: linear-gradient(120deg, #1e1e2f, #12121b);
-          color: #ddd;
-        }
-
-        body.dark-mode .sidebar {
-          background: linear-gradient(135deg, #1e1e2f, #12121b);
-          color: #ddd;
-          box-shadow: 3px 0 8px rgba(0,0,0,0.6);
-        }
-
-        body.dark-mode .sidebar .nav-link {
-          color: #ddd;
-        }
-
-        body.dark-mode .sidebar .nav-link:hover,
-        body.dark-mode .sidebar .nav-link.active {
-          background-color: rgba(255, 255, 255, 0.15);
-        }
-
-        body.dark-mode .sidebar form button.nav-link {
-          color: #f7f7f7;
-        }
-
-        body.dark-mode .sidebar form button.nav-link:hover {
-          background-color: rgba(255, 255, 255, 0.15);
-          color: #fff;
-        }
-
-        body.dark-mode .content {
-          color: #ddd;
-        }
-
-        body.dark-mode .profile-card {
-          background: rgba(30, 30, 30, 0.95);
-          box-shadow: 0 6px 18px rgba(0,0,0,0.9);
-          color: #eee;
-        }
-
-        body.dark-mode .biografia {
-          background-color: #1a1a1a;
-          color: #ccc;
-          box-shadow: inset 0 0 5px #333;
-        }
-
-        body.dark-mode .btn-primary {
-          background-color: #3455bb;
-        }
-
-        body.dark-mode .btn-outline-secondary {
-          color: #8fbaff;
-          border-color: #8fbaff;
-        }
-
-        body.dark-mode .btn-outline-secondary:hover {
-          background-color: #3455bb;
-          color: white;
-        }
-
+        /* Responsividade */
         @media (max-width: 768px) {
           body {
             flex-direction: column;
           }
-
           .sidebar {
             position: relative;
             width: 100%;
             height: auto;
             flex-direction: row;
-            padding: 10px;
+            padding: 1rem;
             justify-content: space-around;
             align-items: center;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.25);
           }
-
           .sidebar h2 {
             display: none;
           }
-
-          .content {
+          .toggle-theme {
+            position: fixed;
+            top: 14px;
+            left: auto;
+            right: 16px;
+          }
+          main.content {
             margin-left: 0;
-            padding: 20px;
+            padding: 2rem 1.5rem;
             max-width: 100%;
           }
-
           .profile-card {
             padding: 30px 20px;
             max-width: 100%;
+            border-radius: 20px;
+          }
+          .btn-group-profile {
+            flex-direction: row;
+            justify-content: center;
+            gap: 15px;
+          }
+          .btn-group-profile .btn {
+            flex: 1;
+            padding: 0.85rem 0;
+            font-size: 1rem;
+            border-radius: 14px;
           }
         }
     </style>
 </head>
 <body>
-
-<div class="toggle-theme" onclick="toggleDarkMode()" title="Alternar tema">
-    <i class="bi bi-moon-fill" id="theme-icon"></i>
-</div>
 
 <!-- Sidebar -->
 <div class="sidebar">
@@ -291,7 +290,7 @@
 
 <!-- Conteúdo -->
 <main class="content">
-    <section class="profile-card">
+    <section class="profile-card" role="region" aria-label="Perfil do usuário">
         <img th:src="@{/images/default-profile.png}" alt="Foto de perfil" class="profile-photo" />
         <h1 class="display-name" th:text="${usuario.displayName}">Nome do Usuário</h1>
         <p class="username" th:text="'@' + ${usuario.nomeUsuario}">@nomeusuario</p>
@@ -300,33 +299,13 @@
             Biografia do usuário
         </div>
 
-        <div class="btn-group-profile">
-            <a th:href="@{'/topicos?autor=' + ${usuario.nomeUsuario}}" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i> Ver Tópicos</a>
-            <a th:href="@{'/perfil/' + ${usuario.nomeUsuario} + '/editar'}" class="btn btn-outline-secondary"><i class="bi bi-pencil-square"></i> Editar Perfil</a>
-            <a th:href="@{/logout}" class="btn btn-danger"><i class="bi bi-box-arrow-right"></i> Sair</a>
+        <div class="btn-group-profile" role="group" aria-label="Ações do perfil">
+            <a th:href="@{'/topicos?autor=' + ${usuario.nomeUsuario}}" class="btn btn-primary" role="button"><i class="bi bi-chat-left-text-fill"></i> Ver Tópicos</a>
+            <a th:href="@{'/perfil/' + ${usuario.nomeUsuario} + '/editar'}" class="btn btn-outline-secondary" role="button"><i class="bi bi-pencil-square"></i> Editar Perfil</a>
+            <a th:href="@{/logout}" class="btn btn-danger" role="button"><i class="bi bi-box-arrow-right"></i> Sair</a>
         </div>
     </section>
 </main>
-
-<script>
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
-      const icon = document.getElementById('theme-icon');
-      const isDark = document.body.classList.contains('dark-mode');
-      icon.classList.toggle('bi-moon-fill', !isDark);
-      icon.classList.toggle('bi-sun-fill', isDark);
-      localStorage.setItem('tema', isDark ? 'dark' : 'light');
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const temaSalvo = localStorage.getItem('tema');
-      if (temaSalvo === 'dark') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('theme-icon').classList.replace('bi-moon-fill', 'bi-sun-fill');
-      }
-    });
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
