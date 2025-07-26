@@ -1,5 +1,6 @@
 package br.com.tiu.forum.controller;
 
+import br.com.tiu.forum.domain.resposta.DadosCriarResposta;
 import br.com.tiu.forum.infra.exception.RegraDeNegocioException;
 import br.com.tiu.forum.domain.topico.*;
 import br.com.tiu.forum.domain.usuario.Usuario;
@@ -7,6 +8,7 @@ import br.com.tiu.forum.domain.usuario.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,6 +30,17 @@ public class TopicoController {
         this.topicoService = topicoService;
         this.topicoRepository = topicoRepository;
         this.usuarioRepository = usuarioRepository;
+    }
+
+    @GetMapping("/{id}")
+    public String exibirTopico(@PathVariable Long id, Model model, @AuthenticationPrincipal Usuario usuarioLogado) {
+        var dto = topicoService.buscarDtoPorIdComRespostas(id);
+        model.addAttribute("topico", dto);
+        model.addAttribute("dadosNovaResposta", new DadosCriarResposta("", id));
+
+        model.addAttribute("usuario", usuarioLogado);
+
+        return "topicos/exibir";
     }
 
     @GetMapping

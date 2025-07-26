@@ -21,15 +21,24 @@ public class Resposta {
     private String mensagem;
     private LocalDateTime dataCriacao;
 
+    public Resposta() {}
+
+    public Resposta(Topico topico, Usuario autor, String mensagem, LocalDateTime dataCriacao) {
+        this.topico = topico;
+        this.autor = autor;
+        this.mensagem = mensagem;
+        this.dataCriacao = dataCriacao;
+    }
+
     public Long getId() {
         return id;
     }
 
-    public String getContent() {
+    public String getMensagem() {
         return mensagem;
     }
 
-    public Usuario getAuthor() {
+    public Usuario getAutor() {
         return autor;
     }
 
@@ -37,7 +46,27 @@ public class Resposta {
         return topico;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTopico(Topico topico) {
+        this.topico = topico;
+    }
+
+    public void setAutor(Usuario autor) {
+        this.autor = autor;
+    }
+
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
+    }
+
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 }

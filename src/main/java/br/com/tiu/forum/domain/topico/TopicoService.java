@@ -18,6 +18,13 @@ public class TopicoService {
     }
 
     @Transactional
+    public DadosListagemTopico buscarDtoPorIdComRespostas(Long id) {
+        Topico topico = topicoRepository.buscarPorIdComRespostas(id)
+                .orElseThrow(() -> new EntityNotFoundException("Tópico não encontrado com id: " + id));
+        return new DadosListagemTopico(topico);
+    }
+
+    @Transactional
     public Topico cadastrar(DadosCadastroTopico dados, Usuario autor) {
         var topico = new Topico(dados, autor);
         return topicoRepository.save(topico);

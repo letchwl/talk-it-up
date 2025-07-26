@@ -1,12 +1,14 @@
 package br.com.tiu.forum.domain.topico;
 
+import br.com.tiu.forum.domain.resposta.Resposta;
 import br.com.tiu.forum.domain.usuario.Usuario;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Table(name = "templates/topicos/topico")
+@Table(name = "topicos")
 public class Topico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,9 +20,10 @@ public class Topico {
     @JoinColumn(name = "autor_id")
     private Usuario autor;
     private LocalDateTime dataCriacao;
-
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
+    @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Resposta> respostas;
 
     public Topico() {}
 
@@ -80,5 +83,9 @@ public class Topico {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public List<Resposta> getRespostas() {
+        return respostas;
     }
 }
