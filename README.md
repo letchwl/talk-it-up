@@ -1,26 +1,40 @@
-# 🗣️ Talk It Up (TIU) - API Restfull(WEB) 
+# 🗣️ Talk It Up (TIU)  
 
-**TIU (Talk It Up)** é uma API REST educacional desenvolvida em Java com Spring Boot, permitindo criação e interação em tópicos escolares organizados por categorias.  
-
----
-
-## 🎯 Objetivo técnico
-
-Oferecer uma API RESTful robusta para integração com aplicações front-end educacionais, permitindo autenticação segura, categorização por áreas do conhecimento e comunicação entre usuários.
+API RESTful educacional feita com Java e Spring Boot, que permite a criação, exibição e organização de tópicos escolares por categoria, com autenticação segura e verificação por e-mail.
 
 ---
 
-## ⚙️ Tecnologias
+## 🎯 Objetivo
 
+Oferecer uma API RESTful robusta para integração com aplicações educacionais, promovendo a comunicação entre estudantes e professores por meio de tópicos organizados por área do conhecimento.  
+Ideal para fóruns escolares, projetos de extensão e ferramentas de apoio pedagógico.
+
+---
+
+## ⚙️ Tecnologias Utilizadas
+
+### Backend
 - Java 21  
 - Spring Boot 3  
 - Spring Web  
+- Spring Data JPA  
 - Spring Security  
-- Spring Data JPA
-- Spring Mail
+- Spring Mail  
+
+### Banco de Dados
 - PostgreSQL  
-- Bean Validation (JSR-380)  
+
+### Frontend (servidor-side)
 - Thymeleaf
+- HTML5
+- CSS3 
+
+### Validação
+- Bean Validation
+
+### Outras
+- BCrypt para criptografia
+- API RESTful com retornos HTTP semânticos
 
 ---
 
@@ -53,6 +67,8 @@ Oferecer uma API RESTful robusta para integração com aplicações front-end ed
 
 ## 👨‍💻 Autor
 
-- **Raul Alves(Letch)** — Backend & Arquitetura
+- **Raul Alves (Letch)**  
+  Backend Developer • Criador do TIU  
+  [GitHub](https://github.com/letchwl) | [Email](raullalvespe1227@gmail.com)
 
 ---
