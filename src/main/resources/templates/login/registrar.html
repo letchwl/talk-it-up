@@ -87,6 +87,8 @@
 
   <form th:action="@{/registrar}" th:object="${dadosCadastroUsuario}" method="post" novalidate>
 
+    <div th:if="${erroRegraNegocio}" class="alert alert-danger" role="alert" th:text="${erroRegraNegocio}"></div>
+
     <div th:if="${#fields.hasErrors()}" class="alert alert-danger">
       <ul>
         <li th:each="erro : ${#fields.errors('*')}" th:text="${erro}"></li>

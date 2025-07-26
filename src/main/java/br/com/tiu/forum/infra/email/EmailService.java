@@ -1,6 +1,6 @@
 package br.com.tiu.forum.infra.email;
 
-import br.com.tiu.forum.model.usuario.Usuario;
+import br.com.tiu.forum.domain.usuario.Usuario;
 import br.com.tiu.forum.infra.exception.RegraDeNegocioException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

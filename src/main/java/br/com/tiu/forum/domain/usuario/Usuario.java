@@ -1,7 +1,7 @@
-package br.com.tiu.forum.model.usuario;
+package br.com.tiu.forum.domain.usuario;
 
 import br.com.tiu.forum.infra.exception.RegraDeNegocioException;
-import br.com.tiu.forum.model.topico.Topico;
+import br.com.tiu.forum.domain.topico.Topico;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

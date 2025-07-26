@@ -1,9 +1,9 @@
 package br.com.tiu.forum.controller;
 
 import br.com.tiu.forum.infra.exception.RegraDeNegocioException;
-import br.com.tiu.forum.model.topico.*;
-import br.com.tiu.forum.model.usuario.Usuario;
-import br.com.tiu.forum.model.usuario.UsuarioRepository;
+import br.com.tiu.forum.domain.topico.*;
+import br.com.tiu.forum.domain.usuario.Usuario;
+import br.com.tiu.forum.domain.usuario.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

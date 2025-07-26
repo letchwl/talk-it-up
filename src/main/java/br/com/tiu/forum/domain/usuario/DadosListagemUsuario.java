@@ -1,4 +1,4 @@
-package br.com.tiu.forum.model.usuario;
+package br.com.tiu.forum.domain.usuario;
 
 public record DadosListagemUsuario(Long id,
                                    String email,

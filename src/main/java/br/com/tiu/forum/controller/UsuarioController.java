@@ -1,9 +1,8 @@
 package br.com.tiu.forum.controller;
 
 import br.com.tiu.forum.infra.exception.RegraDeNegocioException;
-import br.com.tiu.forum.model.usuario.*;
+import br.com.tiu.forum.domain.usuario.*;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,15 +28,20 @@ public class UsuarioController {
     @PostMapping("/registrar")
     public String cadastrar(@Valid @ModelAttribute("dadosCadastroUsuario") DadosCadastroUsuario dados,
                             BindingResult result,
+                            Model model,
                             RedirectAttributes attr) {
         if (result.hasErrors()) {
             return "login/registrar";
         }
 
-        var usuario = usuarioService.cadastrar(dados);
-        attr.addFlashAttribute("mensagemSucesso", "Cadastro realizado com sucesso! Verifique seu e-mail.");
-
-        return "redirect:/login";
+        try {
+            var usuario = usuarioService.cadastrar(dados);
+            attr.addFlashAttribute("mensagemSucesso", "Cadastro realizado com sucesso! Verifique seu e-mail.");
+            return "redirect:/login";
+        } catch (RegraDeNegocioException e) {
+            model.addAttribute("erroRegraNegocio", e.getMessage());
+            return "login/registrar";
+        }
     }
 
     @GetMapping("/verificar-conta")
@@ -91,8 +95,13 @@ public class UsuarioController {
             return "usuario/editar";
         }
 
-        var usuario = usuarioService.editarPerfil(logado, dados);
-        redirectAttributes.addFlashAttribute("mensagem", "Perfil atualizado com sucesso!");
-        return "redirect:/perfil/" + logado.getNomeUsuario();
+        try {
+            var usuario = usuarioService.editarPerfil(logado, dados);
+            redirectAttributes.addFlashAttribute("mensagem", "Perfil atualizado com sucesso!");
+            return "redirect:/perfil/" + logado.getNomeUsuario();
+        } catch (RegraDeNegocioException e) {
+            model.addAttribute("erroRegraNegocio", e.getMessage());
+            return "usuario/editar";
+        }
     }
 }

@@ -1,6 +1,6 @@
-package br.com.tiu.forum.model.topico;
+package br.com.tiu.forum.domain.topico;
 
-import br.com.tiu.forum.model.usuario.Usuario;
+import br.com.tiu.forum.domain.usuario.Usuario;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

@@ -213,6 +213,8 @@
 
             <div th:if="${erro != null}" class="alert alert-danger" th:text="${erro}"></div>
 
+            <div th:if="${erroRegraNegocio}" class="alert alert-danger" role="alert" th:text="${erroRegraNegocio}"></div>
+
             <div th:if="${#fields.hasErrors()}">
                 <ul class="alert alert-danger mb-3">
                     <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>

@@ -1,4 +1,4 @@
-package br.com.tiu.forum.model.resposta;
+package br.com.tiu.forum.domain.resposta;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,4 +1,4 @@
-package br.com.tiu.forum.model.usuario;
+package br.com.tiu.forum.domain.usuario;
 
 import br.com.tiu.forum.infra.email.EmailService;
 import br.com.tiu.forum.infra.exception.RegraDeNegocioException;
@@ -42,6 +42,16 @@ public class UsuarioService implements UserDetailsService {
     public Usuario cadastrar(DadosCadastroUsuario dados) {
         var senhaCriptografada = passwordEncoder.encode(dados.senha());
 
+        if (usuarioRepository.existsByNomeUsuario(dados.nomeUsuario())) {
+            throw new RegraDeNegocioException("Esse nome de usuário já está em uso.");
+        }
+        if (usuarioRepository.existsByEmail(dados.email())) {
+            throw new RegraDeNegocioException("Email já está em uso.");
+        }
+        if (usuarioRepository.existsByDisplayName(dados.displayName())) {
+            throw new RegraDeNegocioException("Display name já está em uso.");
+        }
+
         var usuario = new Usuario(dados, senhaCriptografada);
 
         emailService.enviarEmailVerificacao(usuario);
@@ -50,10 +60,15 @@ public class UsuarioService implements UserDetailsService {
 
     @Transactional
     public Usuario editarPerfil(Usuario usuario, DadosAtualizacaoUsuario dados) {
+        if (usuarioRepository.existsByNomeUsuarioAndIdNot(dados.nomeUsuario(), usuario.getId())) {
+            throw new RegraDeNegocioException("Esse nome de usuário já está em uso.");
+        }
+        if (usuarioRepository.existsByDisplayNameAndIdNot(dados.displayName(), usuario.getId())) {
+            throw new RegraDeNegocioException("Display name já está em uso.");
+        }
         if (dados.biografia() != null && dados.biografia().length() > 150) {
             throw new RegraDeNegocioException("A bio deve ter no máximo 150 caracteres");
         }
-
         if (dados.nomeUsuario() == null || dados.nomeUsuario().isBlank()) {
             throw new RegraDeNegocioException("O nome de usuário não pode estar vazio");
         }

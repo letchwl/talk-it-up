@@ -111,7 +111,7 @@
             <label for="categoria" class="form-label">Categoria</label>
             <select th:field="*{categoria}" class="form-select" id="categoria">
                 <option value="" disabled selected>Selecione uma categoria</option>
-                <option th:each="cat : ${T(br.com.tiu.forum.model.topico.Categoria).values()}"
+                <option th:each="cat : ${T(br.com.tiu.forum.domain.topico.Categoria).values()}"
                         th:value="${cat}" th:text="${#strings.capitalize(#strings.replace(cat.name(), '_', ' ').toLowerCase())}">
                 </option>
             </select>

@@ -1,4 +1,4 @@
-package br.com.tiu.forum.model.topico;
+package br.com.tiu.forum.domain.topico;
 
 public enum Categoria {
     MATEMATICA,

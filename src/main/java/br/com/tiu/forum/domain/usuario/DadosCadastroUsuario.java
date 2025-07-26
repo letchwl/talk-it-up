@@ -1,4 +1,4 @@
-package br.com.tiu.forum.model.usuario;
+package br.com.tiu.forum.domain.usuario;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
