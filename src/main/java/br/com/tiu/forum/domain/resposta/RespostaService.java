@@ -20,6 +20,13 @@ public class RespostaService {
         this.topicoRepository = topicoRepository;
     }
 
+    @Transactional(readOnly = true)
+    public Resposta buscarPorId(Long id) {
+        return respostaRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Resposta não encontrada"));
+    }
+
+
     @Transactional
     public void criarResposta(DadosCriarResposta dados, Usuario autor) {
         Topico topico = topicoRepository.findById(dados.topicoId())
@@ -33,4 +40,32 @@ public class RespostaService {
 
         respostaRepository.save(resposta);
     }
+
+    @Transactional
+    public void atualizar(Long id, DadosAtualizacaoResposta dados, Usuario autor) {
+        Resposta resposta = respostaRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Resposta não encontrada"));
+
+        if (!resposta.getAutor().equals(autor)) {
+            throw new RegraDeNegocioException("Você não tem permissão para editar esta resposta.");
+        }
+
+        resposta.setMensagem(dados.mensagem());
+        resposta.setDataCriacao(LocalDateTime.now());
+
+        respostaRepository.save(resposta);
+    }
+
+    @Transactional
+    public void excluirResposta(Long id, Usuario autor) {
+        Resposta resposta = respostaRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Resposta não encontrada"));
+
+        if (!resposta.getAutor().equals(autor)) {
+            throw new RegraDeNegocioException("Você não tem permissão para excluir esta resposta.");
+        }
+
+        respostaRepository.delete(resposta);
+    }
+
 }

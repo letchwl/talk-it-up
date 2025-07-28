@@ -52,10 +52,9 @@ public class TopicoService {
             return new DadosListagemTopico(topico);
 
         } catch (IllegalArgumentException | EntityNotFoundException e) {
-            // aqui você pode logar o erro se quiser
-            throw e;  // relança para o controller tratar
+            // error
+            throw e;
         } catch (Exception e) {
-            // log de erro genérico
             throw new RuntimeException("Erro inesperado ao atualizar tópico.", e);
         }
     }

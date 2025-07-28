@@ -10,7 +10,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 
   <style>
-    /* Mesmo CSS base do lista.html para manter padrão visual */
 
     * {
       box-sizing: border-box;
@@ -141,6 +140,45 @@
       transition: background-color 0.3s ease;
     }
 
+    .btn-icon {
+      background-color: transparent;
+      border: none;
+      color: #6a11cb;
+      font-size: 1.3rem;
+      padding: 6px;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+
+    .btn-icon:hover {
+      background-color: #f2f2f2;
+      color: #6a11cb;
+    }
+
+    /* Dropdown estilizado */
+    .dropdown-menu {
+      border-radius: 12px;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+      padding: 0.4rem 0;
+      min-width: 140px;
+      font-size: 0.95rem;
+    }
+
+    .dropdown-menu .dropdown-item {
+      padding: 0.55rem 1.2rem;
+      transition: background-color 0.2s;
+    }
+
+    .dropdown-menu .dropdown-item:hover {
+      background-color: #f2f2f2;
+      color: #6a11cb;
+    }
+
+    .dropdown-menu .dropdown-item.text-danger:hover {
+      background-color: #ffe6e6;
+      color: #dc3545;
+    }
+
     .btn-primary:hover {
       background: linear-gradient(135deg, #2575fc, #6a11cb);
     }
@@ -222,12 +260,31 @@
     <p class="text-muted">Nenhuma resposta ainda.</p>
   </div>
 
-  <div th:each="resposta : ${topico.respostas}" class="resposta-card">
+  <div th:each="resposta : ${topico.respostas}" class="resposta-card position-relative">
+
     <p th:text="${resposta.mensagem}">Mensagem da resposta</p>
     <small>
       Respondido por <strong th:text="${resposta.autor != null ? resposta.autor.nomeUsuario : 'Autor desconhecido'}">Autor</strong>
       em <span th:text="${#temporals.format(resposta.dataCriacao, 'dd/MM/yyyy HH:mm')}">data</span>
     </small>
+
+    <div class="dropdown position-absolute top-0 end-0 me-3 mt-2">
+      <button class="btn btn-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-three-dots-vertical"></i>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+          <a class="dropdown-item" th:href="@{'/respostas/' + ${resposta.id} + '/editar'}">Editar</a>
+        </li>
+        <li>
+          <form th:action="@{'/respostas/' + ${resposta.id}}" method="post" onsubmit="return confirm('Tem certeza que deseja excluir esta resposta?');">
+            <input type="hidden" name="_method" value="delete" />
+            <button type="submit" class="dropdown-item text-danger p-0 m-0 border-0 bg-transparent">Excluir</button>
+          </form>
+        </li>
+      </ul>
+    </div>
+
   </div>
 
   <a th:href="@{'/topicos/' + ${topico.id} + '/respostas/novo'}" class="btn btn-primary mt-4">

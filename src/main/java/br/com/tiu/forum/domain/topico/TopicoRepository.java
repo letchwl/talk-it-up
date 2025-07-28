@@ -19,7 +19,6 @@ public interface TopicoRepository extends JpaRepository<Topico, Long> {
     join t.autor a
 """)
     Page<DadosListagemTopico> listar(Pageable pageable);
-
     @EntityGraph(attributePaths = {"respostas", "autor", "categoria", "respostas.autor"})
     Optional<Topico> findById(Long id);
 

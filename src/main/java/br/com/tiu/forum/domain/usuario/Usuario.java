@@ -104,6 +104,19 @@ public class Usuario implements UserDetails {
         return verificado;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return id != null && id.equals(usuario.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
+    }
+
     public void verificar() {
         if(expiracaoToken.isBefore(LocalDateTime.now())){
             throw new RegraDeNegocioException("Link de verificação expirou!");
