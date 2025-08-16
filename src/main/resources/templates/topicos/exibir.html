@@ -140,44 +140,52 @@
       transition: background-color 0.3s ease;
     }
 
-    .btn-icon {
+    .dropdown-resposta {
+      position: absolute;
+      top: 10px;
+      right: 18px;
+    }
+
+    .dropdown-resposta .btn-dropdown {
+      width: 34px;
+      height: 34px;
+      padding: 0;
       background-color: transparent;
       border: none;
+      font-size: 1.4rem;
       color: #6a11cb;
-      font-size: 1.3rem;
-      padding: 6px;
-      border-radius: 50%;
-      transition: background-color 0.2s;
+      transition: color 0.3s ease, background-color 0.3s ease;
+      border-radius: 10px;
     }
 
-    .btn-icon:hover {
-      background-color: #f2f2f2;
-      color: #6a11cb;
+    .dropdown-resposta .btn-dropdown:hover {
+      background-color: rgba(106, 17, 203, 0.1);
+      color: #2575fc;
     }
 
-    /* Dropdown estilizado */
     .dropdown-menu {
-      border-radius: 12px;
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
-      padding: 0.4rem 0;
-      min-width: 140px;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(106, 17, 203, 0.25);
       font-size: 0.95rem;
+      min-width: 140px;
+      border: none;
     }
 
-    .dropdown-menu .dropdown-item {
-      padding: 0.55rem 1.2rem;
-      transition: background-color 0.2s;
+    .dropdown-item {
+      padding: 10px 16px;
+      border-radius: 10px;
+      transition: background-color 0.25s ease;
     }
 
-    .dropdown-menu .dropdown-item:hover {
-      background-color: #f2f2f2;
-      color: #6a11cb;
+    .dropdown-item:hover {
+      background-color: #f0e6ff;
     }
 
-    .dropdown-menu .dropdown-item.text-danger:hover {
+    .dropdown-item.text-danger:hover {
       background-color: #ffe6e6;
-      color: #dc3545;
+      color: #c82333;
     }
+
 
     .btn-primary:hover {
       background: linear-gradient(135deg, #2575fc, #6a11cb);
